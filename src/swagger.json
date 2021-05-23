@@ -76,7 +76,7 @@
       }
     },
     "/products": {
-      "patch": {
+      "get": {
         "tags": [
           "Products"
         ],
