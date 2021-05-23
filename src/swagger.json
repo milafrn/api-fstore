@@ -1,38 +1,231 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "title": "Challenge Mod 02 - Documentation",
+    "title": "API Five-m.Store",
     "description": "This is an API Rent",
     "version": "1.0.0",
     "contact": {
-      "email": "oi@rocketseat.com.br"
+      "email": "kaah.fernandess20@gmail.com"
     }
   },
   "paths": {
-    "/users": {
+    "/categories": {
+      "get": {
+        "tags": [
+          "Categories"
+        ],
+        "summary": "Retorna todas as categorias",
+        "responses": {
+          "200": {
+            "description": "Operação realizada com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "number"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "body": {
+                      "type": "string"
+                    },
+                    "icon": {
+                      "type": "string"
+                    },
+                    "weight": {
+                      "type": "number"
+                    }
+                  },
+                  "example": [
+                    {
+                      "id": 1052,
+                      "name": "Donates",
+                      "body": "<p><br></p>",
+                      "icon": "fas fa-money-check",
+                      "weight": 0
+                    },
+                    {
+                      "id": 1000,
+                      "name": "Example",
+                      "body": "<p><br></p>",
+                      "icon": "fas fa-money",
+                      "weight": 1
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "error": "Error."
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/products": {
+      "patch": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "Retorna todos os produtos.",
+        "responses": {
+          "200": {
+            "description": "Operação realizada com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "number"
+                    },
+                    "category_id": {
+                      "type": "number"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "body": {
+                      "type": "string"
+                    },
+                    "price": {
+                      "type": "number"
+                    },
+                    "enabled": {
+                      "type": "boolean"
+                    },
+                    "images": {
+                      "type": "array"
+                    },
+                    "variations": {
+                      "type": "array"
+                    }
+                  },
+                  "example": [
+                    {
+                      "id": 9269,
+                      "category_id": 1052,
+                      "name": "Vip Bronze",
+                      "body": "<p>30% de preferência na fila.</p><p>1 Vaga a mais na garagem</p>",
+                      "price": 20,
+                      "enabled": true,
+                      "images": [],
+                      "variations": []
+                    },
+                    {
+                      "id": 9270,
+                      "category_id": 1052,
+                      "name": "Vip Prata",
+                      "body": "<p>50% de preferencia na fila</p><p>2 vagas a mais na garagem</p>",
+                      "price": 30,
+                      "enabled": true,
+                      "images": [],
+                      "variations": []
+                    },
+                    {
+                      "id": 9272,
+                      "category_id": 1052,
+                      "name": "Vip Ouro",
+                      "body": "<p>70% de preferência na fila</p><p>3 vagas a mais na garagem</p><p>Número de celular personalizado</p>",
+                      "price": 50,
+                      "enabled": true,
+                      "images": [],
+                      "variations": []
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Bad Request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "error": "error."
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/checkout": {
       "post": {
         "tags": [
-          "Users"
+          "Checkout"
         ],
-        "summary": "Cria um novo usuário",
+        "summary": "Envia os dados para pedidos",
         "requestBody": {
-          "description": "Campos obrigatórios para criação de um usuário",
+          "description": "Campos obrigatórios para a venda",
           "required": true,
           "content": {
             "application/json": {
               "schema": {
                 "type": "object",
                 "properties": {
-                  "name": {
+                  "payer": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string"
+                      },
+                      "email": {
+                        "type": "string"
+                      },
+                      "player": {
+                        "type": "number"
+                      },
+                      "discord": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "cart": {
+                    "type": "array"
+                  },
+                  "coupon": {
                     "type": "string"
                   },
-                  "description": {
+                  "gateway": {
                     "type": "string"
+                  },
+                  "variations": {
+                    "type": "object"
                   }
                 },
                 "example": {
-                  "name": "Rocketseat",
-                  "email": "oi@rocketseat.com.br"
+                  "payer": {
+                    "name": "Nome completo",
+                    "email": "email@example.com",
+                    "player": 3,
+                    "discord": null
+                  },
+                  "cart": [
+                    33,
+                    923
+                  ],
+                  "coupon": null,
+                  "gateway": "mercadopago",
+                  "variations": {
+                    "3119": "s1000rr"
+                  }
                 }
               }
             }
@@ -46,273 +239,65 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "admin": {
-                      "type": "boolean"
+                    "payer": {
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "type": "string"
+                        },
+                        "email": {
+                          "type": "string"
+                        },
+                        "player": {
+                          "type": "number"
+                        },
+                        "discord": {
+                          "type": "string"
+                        }
+                      }
                     },
-                    "id": {
+                    "cart": {
+                      "type": "array"
+                    },
+                    "coupon": {
                       "type": "string"
                     },
-                    "name": {
+                    "gateway": {
                       "type": "string"
                     },
-                    "description": {
-                      "type": "string"
-                    },
-                    "created_at": {
-                      "type": "date"
-                    },
-                    "updated_at": {
-                      "type": "date"
+                    "variations": {
+                      "type": "object"
                     }
                   },
                   "example": {
-                    "admin": false,
-                    "id": "233e90be-b670-4e56-8dbe-d24d017b5606",
-                    "name": "Rocketseat",
-                    "email": "oi@rocketseat.com.br",
-                    "created_at": "2021-03-10T22:10:32.992Z",
-                    "updated_at": "2021-03-10T22:10:32.992Z"
+                    "payer": {
+                      "name": "Nome completo",
+                      "email": "email@example.com",
+                      "player": 3,
+                      "discord": null
+                    },
+                    "cart": [
+                      33,
+                      923
+                    ],
+                    "coupon": null,
+                    "gateway": "mercadopago",
+                    "variations": {
+                      "3119": "s1000rr"
+                    }
                   }
                 }
               }
             }
           },
           "400": {
-            "description": "Operação realizada com sucesso",
+            "description": "Bad Request",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
                   "example": {
-                    "error": "This email is already in use."
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "get": {
-        "tags": [
-          "Users"
-        ],
-        "summary": "Retorna todos os usuários",
-        "description": "Somente um usuário **`admin`** pode acessar.",
-        "parameters": [
-          {
-            "in": [
-              "header"
-            ],
-            "name": "user_id",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Operação realizada com sucesso",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "admin": {
-                      "type": "boolean"
-                    },
-                    "id": {
-                      "type": "string"
-                    },
-                    "name": {
-                      "type": "string"
-                    },
-                    "description": {
-                      "type": "string"
-                    },
-                    "created_at": {
-                      "type": "date"
-                    },
-                    "updated_at": {
-                      "type": "date"
-                    }
-                  },
-                  "example": [
-                    {
-                      "admin": true,
-                      "id": "233e90be-b670-4e56-8dbe-d24d017b5606",
-                      "name": "Rocketseat",
-                      "email": "oi@rocketseat.com.br",
-                      "created_at": "2021-03-10T22:10:32.992Z",
-                      "updated_at": "2021-03-10T22:10:32.992Z"
-                    },
-                    {
-                      "admin": false,
-                      "id": "233e90be-b670-4e56-8dbe-d24d017b5606",
-                      "name": "Seat Rocket",
-                      "email": "email@seatrocket.com.br",
-                      "created_at": "2021-04-10T22:10:32.992Z",
-                      "updated_at": "2021-04-10T22:10:32.992Z"
-                    }
-                  ]
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Usuário sem permissão ou Usuário não encontrado.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "example": {
-                    "error": "You not have privilege for the action. You need to be an administrator to list all users."
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/users/{user_id}": {
-      "get": {
-        "tags": [
-          "Users"
-        ],
-        "summary": "Retorna um usuário específico",
-        "parameters": [
-          {
-            "in": "path",
-            "name": "user_id",
-            "required": true,
-            "description": "ID do usuário",
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Operação realizada com sucesso",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "admin": {
-                      "type": "boolean"
-                    },
-                    "id": {
-                      "type": "string"
-                    },
-                    "name": {
-                      "type": "string"
-                    },
-                    "description": {
-                      "type": "string"
-                    },
-                    "created_at": {
-                      "type": "date"
-                    },
-                    "updated_at": {
-                      "type": "date"
-                    }
-                  },
-                  "example": {
-                    "admin": false,
-                    "id": "233e90be-b670-4e56-8dbe-d24d017b5606",
-                    "name": "Rocketseat",
-                    "email": "oi@rocketseat.com.br",
-                    "created_at": "2021-03-10T22:10:32.992Z",
-                    "updated_at": "2021-03-10T22:10:32.992Z"
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Usuário não encontrado.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "example": {
-                    "error": "User not found."
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/users/{user_id}/admin": {
-      "patch": {
-        "tags": [
-          "Users"
-        ],
-        "summary": "Torna admin um usuário.",
-        "parameters": [
-          {
-            "in": "path",
-            "name": "user_id",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Operação realizada com sucesso",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "admin": {
-                      "type": "boolean"
-                    },
-                    "id": {
-                      "type": "string"
-                    },
-                    "name": {
-                      "type": "string"
-                    },
-                    "description": {
-                      "type": "string"
-                    },
-                    "created_at": {
-                      "type": "date"
-                    },
-                    "updated_at": {
-                      "type": "date"
-                    }
-                  },
-                  "example": {
-                    "admin": true,
-                    "id": "233e90be-b670-4e56-8dbe-d24d017b5606",
-                    "name": "Rocketseat",
-                    "email": "oi@rocketseat.com.br",
-                    "created_at": "2021-03-10T22:10:32.992Z",
-                    "updated_at": "2021-03-10T22:10:32.992Z"
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Usuário não encontrado.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "example": {
-                    "error": "User not found."
+                    "error": "error."
                   }
                 }
               }
